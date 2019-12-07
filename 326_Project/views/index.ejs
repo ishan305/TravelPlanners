@@ -3,6 +3,16 @@
 <head>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWJjTpoFTz6On1Lsy9NlueVqyiDnAIk0g"></script>
     <script>
+      function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+      </script>
+    <script>
       var arr = [];
       var arr1 = [];
       var arr2 = [];
@@ -10,6 +20,8 @@
       var dmap = new Map();
       var omap = new Map();
       function selection() {
+        //var myVar = JSON.parse(htmlDecode("<%= JSON.stringify(bars[0]) %>"));
+        alert('<%= bars_timings[0] %>');
         arr = [];
         arr1 = [];
         arr2 = [];
@@ -72,7 +84,7 @@
         for (var [key, value] of omap) {
           alert(key);
           for (var [k, v] of value) {
-            alert(key + ' = ' + k + " = " + v);
+            //alert(key + ' = ' + k + " = " + v);
           }
         }
       }
@@ -105,8 +117,8 @@
 </head>
 <body>
 
-<div class="container">
-  <form action="/action_page.php">
+  <div class="container">
+    <form method="post" action="/">
     <div class="row">
       <div class="col-25">
         <label for="fname">Name</label>
@@ -129,16 +141,22 @@
       </div>
       <div class="col-75">
         <select id="day" name="day">
-          <option value="mon">Monday</option>
-          <option value="tues">Tuesday</option>
-          <option value="wed">Wednesday</option>
-          <option value="thurs">Thursday</option>
-          <option value="fri">Friday</option>
-          <option value="sat">Saturday</option>
-          <option value="sun">Sunday</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+          <option value="Sunday">Sunday</option>
         </select>
       </div>
-    </div>
+      <button type="submit" onclick="selection();">Go</button>
+    </form>
+  </div>
+
+  <p><%= bars_timings.get('Hangar') %></p>
+
+  <form>
     <h2>Select 1 Lunch Place and 1 Dinner Place</h2>
     <div id="myWorkContent">
       <figure>
@@ -299,6 +317,12 @@
   </form>
 </div>
 
-<p><button type="submit" onclick="selection();">Submit</button></p>
+<p>
+  <button type="submit" value="file:///C:/Users/Abhinav/326_Project/output.html" onclick="selection();">Submit</button>
+</p>
+<p>
+  <a href="/output.html" target="_blank">thesitewizard.com</a>
+
+</p>
 </body>
 </html>
