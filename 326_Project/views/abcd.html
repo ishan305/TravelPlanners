@@ -21,7 +21,7 @@
       var omap = new Map();
 
       function selection() {
-        alert("<%= bars_timings.get('Hangar') %>");
+        alert("<%= bars_timings.get('Hangar, Amherst, MA') %>");
         arr = [];
         arr1 = [];
         arr2 = [];
@@ -110,6 +110,12 @@
     display: flex;
     overflow-x: auto;
 }
+
+img {
+  width: 300px;
+  height: 300px;
+  padding-right: 30px;
+}
 </style>
 </head>
 <body>
@@ -189,7 +195,7 @@
         <input type="checkbox" name="restaurant" value=<%= restaurants[7] %>/><%= restaurants[7] %>
       </figure>
       <figure>
-        <img src="https://www.masslive.com/resizer/X87cT9yJhrfEjfNh_uAAEr6MVa0=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.masslive.com/home/mass-media/width2048/img/entertainment/photo/ginger-garden-amherstjpg-f141969a5e1136bd.jpg">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-s/04/82/c4/50/oriental-flavor.jpg">
         <input type="checkbox" name="restaurant" value=<%= restaurants[8] %>/><%= restaurants[8] %>
       </figure>
       <figure>
@@ -275,7 +281,7 @@
         <input type="checkbox" name="bar" value=<%= bars[0] %>/><%= bars[0] %>
       </figure>
       <figure>
-        <img src="https://live.staticflickr.com/4019/4538781607_5718da6c2f.jpg">
+        <img src="https://42floors.com/images/H6ef6b8a2ec8e6f4e1428c73370d92cef1a88e524S780x520W0seB505153O/05d6d77c9d5c58c019d982d78d5af0dd0cd86041">
         <input type="checkbox" name="bar" value=<%= bars[1] %>/><%= bars[1] %>
       </figure>
       <figure>
@@ -291,23 +297,23 @@
         <input type="checkbox" name="bar" value=<%= bars[4] %>/><%= bars[4] %>
       </figure>
       <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+        <img src="https://www.facdarchitects.com/wp-content/uploads/2018/11/USE-Spoke-Exterior-Persp.-y.jpg">
         <input type="checkbox" name="bar" value=<%= bars[5] %>/><%= bars[5] %>
       </figure>
       <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+        <img src="http://1.bp.blogspot.com/-9W_mPWBZCU4/U82RoT3rTgI/AAAAAAAAWtQ/Fwfnwo6Niqw/s1600/Stacker's+Pub.jpg">
         <input type="checkbox" name="bar" value=<%= bars[6] %>/><%= bars[6] %>
       </figure>
       <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+        <img src="https://2.bp.blogspot.com/-Wfj5ao6l9Xs/WGmhi8ZCGoI/AAAAAAAAp0c/I4hhjATLwe8Wc0stzIGVCXkzPuzALXTiQCLcB/s1600/McMurphy%2527s.JPG">
         <input type="checkbox" name="bar" value=<%= bars[7] %>/><%= bars[7] %>
       </figure>
       <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+        <img src="https://thebottlemuse.files.wordpress.com/2015/04/0404151606.jpg?w=1440">
         <input type="checkbox" name="bar" value=<%= bars[8] %>/><%= bars[8] %>
       </figure>
       <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+        <img src="https://static.wixstatic.com/media/cdee2f_7163cccef77c4b619aee2c2c66f4b431.jpg/v1/fill/w_552,h_392,al_c,q_80,usm_0.66_1.00_0.01/cdee2f_7163cccef77c4b619aee2c2c66f4b431.webp">
         <input type="checkbox" name="bar" value=<%= bars[9] %>/><%= bars[9] %>
       </figure>
     </div>
@@ -315,11 +321,13 @@
 </div>
 
 <p>
-  <button type="submit" value="file:///C:/Users/Abhinav/326_Project/output.html" onclick="selection();">Submit</button>
+  <button type="submit" onclick="selection();">Submit</button>
 </p>
 <p>
-  <form action="/Output" method = "get">
-    <button>View Output</button>
+</p>
+<p>
+  <form action="/Output" method = "post">
+    <button type="submit">View Output</button>
   </form>   
 </p>
 </body>
