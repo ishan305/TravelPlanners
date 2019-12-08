@@ -25,7 +25,8 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false })); 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/abcd.html'));
+    __dirnamee = __dirname + "\\views";
+    res.sendFile(path.join(__dirnamee + '/abcd.html'));
 });
 
 //Instead of sending Hello World, we render index.ejs
@@ -69,6 +70,7 @@ app.get('/', function(req, res) {
 app.post("/", function (req, res) {
     //console.log(req.body['day']);
     var day = req.body['day'];
+    name = req.body['firstname'];
     MongoClient.connect(uri, function(err, db) {
         client.connect(err => {
             console.log('Connected...');
@@ -109,14 +111,16 @@ app.post("/", function (req, res) {
         });
     });
     console.log(t3);
-    console.log(d3.get("Hangar"));
-    res.render("abcd.html", { restaurants: arr1, sites: arr2, bars: arr3, restaurants_timings: t1, sites_timings: t2, bars_timings: t3, restaurants_duration: d1, sites_duration: d2, bars_duration: d3}); 
+    console.log(d3.get("Hangar, Amherst, MA"));
+    res.render("abcd.html", {restaurants: arr1, sites: arr2, bars: arr3, restaurants_timings: t1, sites_timings: t2, bars_timings: t3, restaurants_duration: d1, sites_duration: d2, bars_duration: d3}); 
 });
 
 app.route('/Output')
- 	.get(function (req, res) {
+ 	.post(function (req, res) {
         var pathn = process.cwd();
-        res.sendFile(pathn + '/output.html');
+        console.log("!!!!!! " + name);
+        res.sendFile(pathn + "\\views" + '/output.html');
+        res.render("output.html", {name: name});
 	});
 
 app.listen(8080, function() { console.log("Server online on http://localhost:8080"); });
