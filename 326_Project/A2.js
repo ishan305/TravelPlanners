@@ -25,7 +25,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false })); 
 
 app.get('/', function(req, res) {
-    __dirnamee = __dirname + "\\views";
+    __dirnamee = __dirname + "/views";
     res.sendFile(path.join(__dirnamee + '/abcd.html'));
 });
 

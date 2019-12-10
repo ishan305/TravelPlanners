@@ -86,6 +86,7 @@
             omap.set(origins[i], dmap);
           }
         }
+        // use this for disatnce
         for (var [key, value] of omap) {
           alert(key);
           for (var [k, v] of value) {
@@ -93,6 +94,70 @@
           }
         }
       }
+
+      var start = "abcd hotel";
+      var end = "dinner rest";
+      var lunch = "xyz cafe";
+      var lunchDeadline = 3;
+      var dinnerDeadline = 9;
+      var startTime = 10;
+      availablePlaces = new Set();
+      
+      function itenaryMaker(){
+        var itenary = [];
+        itenary.push(start);
+        var currTime = startTime;
+        var availablePlaces = getAvailablePlaces(); //stub
+        itenaryHelper(itenary, availablePlaces, currTime, lunch, lunchDeadline); // for lunch
+        currTime += dist(itenary[itenary.length-1],lunch)+timeSpent(lunch);
+        itenary.push(lunch);
+        itenaryHelper(itenary, availablePlaces, currTime, dinner, dinnerDeadline); // for dinner
+        currTime += dist(itenary[itenary.length-1],dinner)+timeSpent(dinner);
+        itenary.push(dinner);
+        if(bar!="")
+          itenary.push(bar);
+        return itenary;
+      }
+
+      function itenaryHelper(itenary, availablePlaces, currTime, lastPlace, deadline){
+        while(true){
+          var currPlace = itenary[itenary.length-1];
+          var nextPlace = getLeastTimePlace(currPlace, availablePlaces);
+          if(itenaryValid(currTime, currPlace, nextPlace, deadline, lastPlace)){
+            itenary.push(nextPlace);
+            currTime += dist(currPlace,nextPlace)+timeSpent(nextPlace);
+            availablePlaces.delete(nextPlace);
+          }
+          else
+            break;
+        }
+      }
+
+      function itenaryValid(currTime, currPlace, nextPlace, lastPlace, deadline){
+        return currTime+dist(currPlace,nextPlace)+timeSpent(nextPlace) + dist(nextPlace, lastPlace) + timeSpent(lastPlace) <= deadline;
+      }
+
+      function timeSpent(place){
+
+      }
+
+      function dist(iplace, eplace){
+        var duration = "<%= bars_duration.get('Hangar') %>"
+
+      }
+
+      function getLeastTimePlace(currPlace, availablePlaces){
+        var minDist = Infinity;
+        var minPlace = "";
+        for (let place of availablePlaces){
+          if(dist(currPlace, place) < minDist){
+            minPlace = place;
+          }
+        }
+        return minPlace;
+      }
+      // figure out dist, time, how to get available places, getLeastTimePlace
+
     </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
