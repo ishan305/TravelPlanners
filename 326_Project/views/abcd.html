@@ -2,6 +2,8 @@
 <html>
 <head>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWJjTpoFTz6On1Lsy9NlueVqyiDnAIk0g"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
       function myFunction() {
         var x = document.getElementById("myDIV");
@@ -27,6 +29,7 @@
         arr2 = [];
         arr3 = [];
         var items1 = document.getElementsByName('restaurant');
+        console.log(items1);
         for(var i=0; i<items1.length; i++){
             if(items1[i].type=='checkbox' && items1[i].checked==true)
                 arr1.push(items1[i].value);
@@ -90,240 +93,405 @@
       }
     </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="./../styles/style.css">
 <style>
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
-}
-.card::-webkit-scrollbar {
-  display: none;
-}
-#myWorkContent{
-    width:auto;
-    height:auto;
-    display: flex;
-    overflow-x: auto;
-}
+  .card::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    box-sizing: border-box;
+  }
 
-img {
-  width: 300px;
-  height: 300px;
-  padding-right: 30px;
-}
+  body {
+      background-color: white;
+      color: black;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .navbar {
+      background-color: lightgray;
+  }
+
+  .navbar-brand {
+      font-size: 4em;
+  }
+
+  .submit-btn {
+    margin-left: -1.25%;
+  }
+
+  .panel {
+      height: 70px;
+      background-color: lightslategray;
+  }
+
+  .panel-body {
+      font-size: 2em;
+  }
+
+  .location-cell {
+      background-color: lightgray;
+      margin: 5px 5px 5px 1.25%;
+      border-style: dashed;
+      border-color: black;
+      border-radius: 15px;
+  }
+
+  .location-cell img {
+      margin-top: 5px;
+      border-radius: 10px;
+      width: 100%;
+      height: 120px;
+  }
 </style>
 </head>
 <body>
 
+  <nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">Team 15's Travel Planner</span>
+  </nav>
+
   <div class="container">
     <form method="post" action="/">
-    <div class="row">
-      <div class="col-25">
-        <label for="fname">Name</label>
-      </div>
-      <div class="col-75">
-        <input type="text" id="fname" name="firstname" placeholder="Name">
-      </div>
+    <div class="row form-group">
+      <label for="fname">Your Name</label>
+      <input type="text" class="form-control" id="fname" name="firstname" placeholder="Name">
     </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="lname">Hotel Address</label>
-      </div>
-      <div class="col-75">
-        <input type="text" id="lname" name="hoteladdress" placeholder="Hotel Address">
-      </div>
+    <div class="row form-group">
+      <label for="lname">Hotel Address</label>
+      <input type="text" class="form-control" id="lname" name="hoteladdress" placeholder="Hotel Address">
+      <small id="addressHelp" class="form-text text-muted">We won't keep your address.</small>
     </div>
-    <div class="row">
-      <div class="col-25">
-        <label for="day">Day of the Week</label>
-      </div>
-      <div class="col-75">
-        <select id="day" name="day">
-          <option value="Monday">Monday</option>
-          <option value="Tuesday">Tuesday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-          <option value="Sunday">Sunday</option>
-        </select>
-      </div>
-      <button type="submit" onclick="selection();">Go</button>
+    <div class="row form-group">
+      <label for="day">Day of the Week</label>
+      <select class="form-control" id="day" name="day">
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
+        <option value="Sunday">Sunday</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary submit-btn" onclick="selection();">Go</button>
     </form>
   </div>
 
   <p><%= bars_timings.get('Hangar') %></p>
 
   <form>
-    <h2>Select 1 Lunch Place and 1 Dinner Place</h2>
-    <div id="myWorkContent">
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[0] %>/><%= restaurants[0] %>
-      </figure>
-      <figure>
-        <img src="https://live.staticflickr.com/4019/4538781607_5718da6c2f.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[1] %>/><%= restaurants[1] %>
-      </figure>
-      <figure>
-        <img src="https://www.gazettenet.com/getattachment/f2356002-5507-4b22-a6d1-e0927a0fd3c8/lonewolf-hg-110116-ph1">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[2] %>/><%= restaurants[2] %>
-      </figure>
-      <figure>
-        <img src="https://s3-media3.fl.yelpcdn.com/bphoto/nVSATPTwPMLvhyEETd0aCw/258s.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[3] %>/><%= restaurants[3] %>
-      </figure>
-      <figure>
-        <img src="https://amherstrestaurant.com/assets/images/Crazy_Noodles.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[4] %>/><%= restaurants[4] %>
-      </figure>
-      <figure>
-        <img src="https://www.gazettenet.com/getattachment/e2bd87f5-65b8-4e5c-b597-5c3c9fc8cca5/bizamherstrestaurants-hg-112816-ph12">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[5] %>/><%= restaurants[5] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/0f/ae/ed/9f/photo1jpg.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[6] %>/><%= restaurants[6] %>
-      </figure>
-      <figure>
-        <img src="https://www.masslive.com/resizer/X87cT9yJhrfEjfNh_uAAEr6MVa0=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.masslive.com/home/mass-media/width2048/img/entertainment/photo/ginger-garden-amherstjpg-f141969a5e1136bd.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[7] %>/><%= restaurants[7] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/04/82/c4/50/oriental-flavor.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[8] %>/><%= restaurants[8] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/64/fe/75/storefront.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[9] %>/><%= restaurants[9] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/17/cf/36/7f/exterior-with-ample-parking.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[10] %>/><%= restaurants[10] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/0b/12/54/6c/lindo-lugar.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[11] %>/><%= restaurants[11] %>
-      </figure>
-      <figure>
-        <img src="https://amherstrestaurant.com/assets/images/Paradise_of_India.jpg">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[12] %>/><%= restaurants[12] %>
-      </figure>
-      <figure>
-        <img src="https://www.airbnb.com/google_place_photo?photoreference=CoQBdwAAAGW-fRRcyAGW8o3R3mDxcOhLySlY_Gr4xyyWkSsUtKDOrIHtcaBUQBBMt9oMKjf7Q0VP-bxHuiJHSEYJozvPkJUDNAoAjag1-0MDoI_IMrvBOb8ZR_jYgNNu9XY9Tfbe71mUoFEJAC7nUSkcyEBcH1IR-x4hRX0SFczZthdSvhYvEhAuCNeqfY1F1pIb--CK0hmxGhS1WGx7s3Vryd2TJWq8RXuGHk2Jcw&maxwidth=1000&maxheight=1000&place_id=1769639">
-        <input type="checkbox" name="restaurant" value=<%= restaurants[13] %>/><%= restaurants[13] %>
-      </figure>
+    <div class="panel panel-default restaurant-panel">
+      <div class="panel-body">
+        Select: 1 Lunch Place and 1 Dinner Place
+      </div>
     </div>
-    <h2>Select 4 Tourist Sites</h2>
-    <div id="myWorkContent">
-      <figure>
-        <img src="https://www.gazettenet.com/getattachment/6938ccda-45c0-4b13-a953-c961954e5c9e/amdonation-hg-060619-ph1">
-        <input type="checkbox" name="site" value=<%= sites[0] %>/><%= sites[0] %>
-      </figure>
-      <figure>
-        <img src="https://www.amherst.edu/system/files/styles/original/private/media/exterior%252Cpayette.png">
-        <input type="checkbox" name="site" value=<%= sites[1] %>/><%= sites[1] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/01/ce/9a/2c/eric-carle-museum-of.jpg">
-        <input type="checkbox" name="site" value=<%= sites[2] %>/><%= sites[2] %>
-      </figure>
-      <figure>
-        <img src="https://www.amherstma.gov/ImageRepository/Document?documentID=29004">
-        <input type="checkbox" name="site" value=<%= sites[3] %>/><%= sites[3] %>
-      </figure>
-      <figure>
-        <img src="https://www.library.umass.edu/assets/Uploads/_resampled/ResizedImageWzYwMCwzMzdd/library-gazette.jpg">
-        <input type="checkbox" name="site" value=<%= sites[4] %>/><%= sites[4] %>
-      </figure>
-      <figure>
-        <img src="https://comestiblog.typepad.com/.a/6a00e55181b026883401b7c7f1bf64970b-800wi">
-        <input type="checkbox" name="site" value=<%= sites[5] %>/><%= sites[5] %>
-      </figure>
-      <figure>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/FarrerThomasCharlesMountTom1865.jpg">
-        <input type="checkbox" name="site" value=<%= sites[6] %>/><%= sites[6] %>
-      </figure>
-      <figure>
-        <img src="https://www.gazettenet.com/getattachment/0d204b29-ef1c-42e4-a4dd-b5bdefde7414/010OPEDITTUES-HG-071018-ph01">
-        <input type="checkbox" name="site" value=<%= sites[7] %>/><%= sites[7] %>
-      </figure>
-      <figure>
-        <img src="https://www.umassalumni.com/s/1640/images/gid2/editor/alumni_association/networks/mt._sugarloaf.jpg">
-        <input type="checkbox" name="site" value=<%= sites[8] %>/><%= sites[8] %>
-      </figure>
-      <figure>
-        <img src="http://www.labelscar.com/wp-content/uploads/2006/09/holyoke-mall-2001-02.jpg">
-        <input type="checkbox" name="site" value=<%= sites[9] %>/><%= sites[9] %>
-      </figure>
-      <figure>
-        <img src="http://2.bp.blogspot.com/_6JOCpADOJWg/RizsSX_CLcI/AAAAAAAAAeg/OzGj6q_dXGM/s400/DSC05225.JPG">
-        <input type="checkbox" name="site" value=<%= sites[10] %>/><%= sites[10] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/45/cb/24/the-new-england-peace.jpg">
-        <input type="checkbox" name="site" value=<%= sites[11] %>/><%= sites[11] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/a1/5b/aa/umass-fine-arts-center.jpg">
-        <input type="checkbox" name="site" value=<%= sites[12] %>/><%= sites[12] %>
-      </figure>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[0] %>/><%= restaurants[0] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://live.staticflickr.com/4019/4538781607_5718da6c2f.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[1] %>/><%= restaurants[1] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.gazettenet.com/getattachment/f2356002-5507-4b22-a6d1-e0927a0fd3c8/lonewolf-hg-110116-ph1">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[2] %>/><%= restaurants[2] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://s3-media3.fl.yelpcdn.com/bphoto/nVSATPTwPMLvhyEETd0aCw/258s.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[3] %>/><%= restaurants[3] %>
+        </figure>
+      </div>
     </div>
-    <h2>Select 1 bar (optional)</h2>
-    <div id="myWorkContent">
-      <figure>
-        <img src="https://amherstrestaurant.com/assets/images/Monkey_Bar_Bistro_63.jpg">
-        <input type="checkbox" name="bar" value=<%= bars[0] %>/><%= bars[0] %>
-      </figure>
-      <figure>
-        <img src="https://42floors.com/images/H6ef6b8a2ec8e6f4e1428c73370d92cef1a88e524S780x520W0seB505153O/05d6d77c9d5c58c019d982d78d5af0dd0cd86041">
-        <input type="checkbox" name="bar" value=<%= bars[1] %>/><%= bars[1] %>
-      </figure>
-      <figure>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/05/33/95/d7/the-pub.jpg">
-        <input type="checkbox" name="bar" value=<%= bars[2] %>/><%= bars[2] %>
-      </figure>
-      <figure>
-        <img src="https://www.gazettenet.com/getattachment/103ed609-9c9e-4e7c-b7e2-a5d4e54be382/wingsover-hg-060719-ph1">
-        <input type="checkbox" name="bar" value=<%= bars[3] %>/><%= bars[3] %>
-      </figure>
-      <figure>
-        <img src="https://southaustinbrewery.com/wp-content/uploads/2016/01/image6-300x200.jpeg">
-        <input type="checkbox" name="bar" value=<%= bars[4] %>/><%= bars[4] %>
-      </figure>
-      <figure>
-        <img src="https://www.facdarchitects.com/wp-content/uploads/2018/11/USE-Spoke-Exterior-Persp.-y.jpg">
-        <input type="checkbox" name="bar" value=<%= bars[5] %>/><%= bars[5] %>
-      </figure>
-      <figure>
-        <img src="http://1.bp.blogspot.com/-9W_mPWBZCU4/U82RoT3rTgI/AAAAAAAAWtQ/Fwfnwo6Niqw/s1600/Stacker's+Pub.jpg">
-        <input type="checkbox" name="bar" value=<%= bars[6] %>/><%= bars[6] %>
-      </figure>
-      <figure>
-        <img src="https://2.bp.blogspot.com/-Wfj5ao6l9Xs/WGmhi8ZCGoI/AAAAAAAAp0c/I4hhjATLwe8Wc0stzIGVCXkzPuzALXTiQCLcB/s1600/McMurphy%2527s.JPG">
-        <input type="checkbox" name="bar" value=<%= bars[7] %>/><%= bars[7] %>
-      </figure>
-      <figure>
-        <img src="https://thebottlemuse.files.wordpress.com/2015/04/0404151606.jpg?w=1440">
-        <input type="checkbox" name="bar" value=<%= bars[8] %>/><%= bars[8] %>
-      </figure>
-      <figure>
-        <img src="https://static.wixstatic.com/media/cdee2f_7163cccef77c4b619aee2c2c66f4b431.jpg/v1/fill/w_552,h_392,al_c,q_80,usm_0.66_1.00_0.01/cdee2f_7163cccef77c4b619aee2c2c66f4b431.webp">
-        <input type="checkbox" name="bar" value=<%= bars[9] %>/><%= bars[9] %>
-      </figure>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://amherstrestaurant.com/assets/images/Crazy_Noodles.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[4] %>/><%= restaurants[4] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.gazettenet.com/getattachment/e2bd87f5-65b8-4e5c-b597-5c3c9fc8cca5/bizamherstrestaurants-hg-112816-ph12">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[5] %>/><%= restaurants[5] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/0f/ae/ed/9f/photo1jpg.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[6] %>/><%= restaurants[6] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.masslive.com/resizer/X87cT9yJhrfEjfNh_uAAEr6MVa0=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.masslive.com/home/mass-media/width2048/img/entertainment/photo/ginger-garden-amherstjpg-f141969a5e1136bd.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[7] %>/><%= restaurants[7] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.masslive.com/resizer/X87cT9yJhrfEjfNh_uAAEr6MVa0=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/image.masslive.com/home/mass-media/width2048/img/entertainment/photo/ginger-garden-amherstjpg-f141969a5e1136bd.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[8] %>/><%= restaurants[8] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/64/fe/75/storefront.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[9] %>/><%= restaurants[9] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/17/cf/36/7f/exterior-with-ample-parking.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[10] %>/><%= restaurants[10] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/0b/12/54/6c/lindo-lugar.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[11] %>/><%= restaurants[11] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://amherstrestaurant.com/assets/images/Paradise_of_India.jpg">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[12] %>/><%= restaurants[12] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.airbnb.com/google_place_photo?photoreference=CoQBdwAAAGW-fRRcyAGW8o3R3mDxcOhLySlY_Gr4xyyWkSsUtKDOrIHtcaBUQBBMt9oMKjf7Q0VP-bxHuiJHSEYJozvPkJUDNAoAjag1-0MDoI_IMrvBOb8ZR_jYgNNu9XY9Tfbe71mUoFEJAC7nUSkcyEBcH1IR-x4hRX0SFczZthdSvhYvEhAuCNeqfY1F1pIb--CK0hmxGhS1WGx7s3Vryd2TJWq8RXuGHk2Jcw&maxwidth=1000&maxheight=1000&place_id=1769639">
+          <input type="checkbox" name="restaurant" value=<%= restaurants[13] %>/><%= restaurants[13] %>
+        </figure>
+      </div>
+    </div>
+    
+    <div class="panel panel-default restaurant-panel">
+      <div class="panel-body">
+        Select: 4 Tourist Sites
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.gazettenet.com/getattachment/6938ccda-45c0-4b13-a953-c961954e5c9e/amdonation-hg-060619-ph1">
+          <input type="checkbox" name="site" value=<%= sites[0] %>/><%= sites[0] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.amherst.edu/system/files/styles/original/private/media/exterior%252Cpayette.png">
+          <input type="checkbox" name="site" value=<%= sites[1] %>/><%= sites[1] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/01/ce/9a/2c/eric-carle-museum-of.jpg">
+          <input type="checkbox" name="site" value=<%= sites[2] %>/><%= sites[2] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.amherstma.gov/ImageRepository/Document?documentID=29004">
+          <input type="checkbox" name="site" value=<%= sites[3] %>/><%= sites[3] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.library.umass.edu/assets/Uploads/_resampled/ResizedImageWzYwMCwzMzdd/library-gazette.jpg">
+          <input type="checkbox" name="site" value=<%= sites[4] %>/><%= sites[4] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://comestiblog.typepad.com/.a/6a00e55181b026883401b7c7f1bf64970b-800wi">
+          <input type="checkbox" name="site" value=<%= sites[5] %>/><%= sites[5] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/FarrerThomasCharlesMountTom1865.jpg">
+          <input type="checkbox" name="site" value=<%= sites[6] %>/><%= sites[6] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.gazettenet.com/getattachment/0d204b29-ef1c-42e4-a4dd-b5bdefde7414/010OPEDITTUES-HG-071018-ph01">
+          <input type="checkbox" name="site" value=<%= sites[7] %>/><%= sites[7] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.umassalumni.com/s/1640/images/gid2/editor/alumni_association/networks/mt._sugarloaf.jpg">
+          <input type="checkbox" name="site" value=<%= sites[8] %>/><%= sites[8] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="http://www.labelscar.com/wp-content/uploads/2006/09/holyoke-mall-2001-02.jpg">
+          <input type="checkbox" name="site" value=<%= sites[9] %>/><%= sites[9] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="http://2.bp.blogspot.com/_6JOCpADOJWg/RizsSX_CLcI/AAAAAAAAAeg/OzGj6q_dXGM/s400/DSC05225.JPG">
+          <input type="checkbox" name="site" value=<%= sites[10] %>/><%= sites[10] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/45/cb/24/the-new-england-peace.jpg">
+          <input type="checkbox" name="site" value=<%= sites[11] %>/><%= sites[11] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/06/a1/5b/aa/umass-fine-arts-center.jpg">
+          <input type="checkbox" name="site" value=<%= sites[12] %>/><%= sites[12] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="panel panel-default restaurant-panel">
+      <div class="panel-body">
+        Select: 1 Bar (Optional)
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://amherstrestaurant.com/assets/images/Monkey_Bar_Bistro_63.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[0] %>/><%= bars[0] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://live.staticflickr.com/4019/4538781607_5718da6c2f.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[1] %>/><%= bars[1] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/05/33/95/d7/the-pub.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[2] %>/><%= bars[2] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://www.gazettenet.com/getattachment/103ed609-9c9e-4e7c-b7e2-a5d4e54be382/wingsover-hg-060719-ph1">
+          <input type="checkbox" name="bar" value=<%= bars[3] %>/><%= bars[3] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://southaustinbrewery.com/wp-content/uploads/2016/01/image6-300x200.jpeg">
+          <input type="checkbox" name="bar" value=<%= bars[4] %>/><%= bars[4] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://southaustinbrewery.com/wp-content/uploads/2016/01/image6-300x200.jpeg">
+          <input type="checkbox" name="bar" value=<%= bars[4] %>/><%= bars[4] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[5] %>/><%= bars[5] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[6] %>/><%= bars[6] %>
+        </figure>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[7] %>/><%= bars[7] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[8] %>/><%= bars[8] %>
+        </figure>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 location-cell">
+        <figure>
+          <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/fc/6d/bb/restaurant-frontage.jpg">
+          <input type="checkbox" name="bar" value=<%= bars[9] %>/><%= bars[9] %>
+        </figure>
+      </div>
     </div>
   </form>
 </div>
 
 <p>
-  <button type="submit" onclick="selection();">Submit</button>
-</p>
-<p>
+  <button type="submit" value="file:///C:/Users/Abhinav/326_Project/output.html" onclick="selection();">Submit</button>
 </p>
 <p>
   <form action="/Output" method = "post">
