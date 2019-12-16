@@ -13,6 +13,8 @@ var t3 = new Map();
 var d1 = new Map();
 var d2 = new Map();
 var d3 = new Map();
+var name;
+var hotel;
 
 //Set view engine to ejs
 app.set("view engine", "ejs"); 
@@ -25,13 +27,13 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false })); 
 
 app.get('/', function(req, res) {
-    __dirnamee = __dirname + "/views";
+    __dirnamee = __dirname + "\\views";
     res.sendFile(path.join(__dirnamee + '/abcd.html'));
 });
 
 //Instead of sending Hello World, we render index.ejs
 //app.get("/", (req, res) => { res.render("index") }); 
-/*app.get("/", (req, res) => {
+app.get("/", (req, res) => {
     MongoClient.connect(uri, function(err, db) {
         client.connect(err => {
             console.log('Connected...');
@@ -65,12 +67,13 @@ app.get('/', function(req, res) {
             });
         });
     });    
-});*/
+});
 
 app.post("/", function (req, res) {
-    //console.log(req.body['day']);
+    console.log(req.body['day']);
     var day = req.body['day'];
     name = req.body['firstname'];
+    hotel = req.body['hoteladdress'];
     MongoClient.connect(uri, function(err, db) {
         client.connect(err => {
             console.log('Connected...');
@@ -120,7 +123,7 @@ app.route('/Output')
         var pathn = process.cwd();
         console.log("!!!!!! " + name);
         res.sendFile(pathn + "\\views" + '/output.html');
-        res.render("output.html", {name: name});
+        res.render("output.html", {name: name, hotel: hotel});
 	});
 
 app.listen(8080, function() { console.log("Server online on http://localhost:8080"); });
