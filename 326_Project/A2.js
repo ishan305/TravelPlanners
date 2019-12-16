@@ -27,7 +27,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false })); 
 
 app.get('/', function(req, res) {
-    __dirnamee = __dirname + "\\views";
+    __dirnamee = __dirname + "/views";
     res.sendFile(path.join(__dirnamee + '/abcd.html'));
 });
 
@@ -115,6 +115,7 @@ app.post("/", function (req, res) {
     });
     console.log(t3);
     console.log(d3.get("Hangar, Amherst, MA"));
+    console.log(arr2);
     res.render("abcd.html", {restaurants: arr1, sites: arr2, bars: arr3, restaurants_timings: t1, sites_timings: t2, bars_timings: t3, restaurants_duration: d1, sites_duration: d2, bars_duration: d3}); 
 });
 
@@ -122,7 +123,7 @@ app.route('/Output')
  	.post(function (req, res) {
         var pathn = process.cwd();
         console.log("!!!!!! " + name);
-        res.sendFile(pathn + "\\views" + '/output.html');
+        res.sendFile(pathn + "/views" + '/output.html');
         res.render("output.html", {name: name, hotel: hotel});
 	});
 

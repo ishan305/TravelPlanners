@@ -20,9 +20,10 @@
       var dmap = new Map();
       var omap = new Map();
       var finalArr = [];
+      var nameToAddr = new Map();
 
       function selection() {
-        //alert("<%= bars_timings.get('Hangar, Amherst, MA') %>");
+        //alert("<%= bars_timings.get('Hangar, Amherst, MA') %>");ok
         arr = [];
         arr1 = [];
         arr2 = [];
@@ -42,18 +43,13 @@
             if(items3[i].type=='checkbox' && items3[i].checked==true)
                 arr3.push(items3[i].value);
         }
-        //comment from here
-        arr.push('Johnny\'s Tavern, Amherst, MA');
-        arr.push('Judie\'s, Amherst, MA');
-        arr.push('Emily Dickinson Museum, Amherst, MA');
-        arr.push('Beneski Museum, Amherst, MA');
-        arr.push('Eric Carle Museum, Amherst, MA');
-        arr.push('Du Bois Library, Amherst, MA');
-        //to here
-        finalArr = arr1.concat(arr2);
+        finalArr = finalArr.concat(arr1);
+        finalArr = finalArr.concat(arr2);
         finalArr = finalArr.concat(arr3);
-        alert(finalArr);  //check to see if all selected places are in this array
+        finalArr.push("Howard Johnson, Hadley, MA");
+        //console.log(finalArr);  //check to see if all selected places are in this array
         calculateDistances();
+        setTimeout(itenaryMaker, 1000);
       }
 
       function calculateDistances() {
@@ -80,12 +76,11 @@
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
               if(origins[i] != destinations[j]) {
-                //alert(origins[i] + " " + destinations[j]);
-                //alert(results[j].distance.text + " " + results[j].duration.text);
                 dmap.set(destinations[j], [results[j].distance.text, results[j].duration.text])
               }
             }
             omap.set(origins[i], dmap);
+            nameToAddr.set(finalArr[i], origins[i]);
           }
         }
 
@@ -106,25 +101,34 @@
         //and so on
       }
 
-      /*var start = "abcd hotel";
-      var end = "dinner rest";
-      var lunch = "xyz cafe";
-      var lunchDeadline = 3;
-      var dinnerDeadline = 9;
-      var startTime = 10;
-      availablePlaces = new Set();
+      var start = "Howard Johnson, Hadley, MA"
+      var dinner = arr1[1];
+      var lunch = arr1[0];
+      var lunchDeadline = 900; // 3 o clock
+      var dinnerDeadline = 1260; // 9 o clock in minutes
+      var startTime = 600; // 10 o clock , time in minuted
+      var bar = arr3[0];
+
+      function getSelectedPlaces(){
+        return new Set(arr2);
+      }
       
-      function itenaryMaker() {
+      function itenaryMaker(){
         var itenary = [];
         itenary.push(start);
         var currTime = startTime;
-        var availablePlaces = getAvailablePlaces(); //stub
-        itenaryHelper(itenary, availablePlaces, currTime, lunch, lunchDeadline); // for lunch
+        var availablePlaces = getSelectedPlaces(); //stub
+        console.log(availablePlaces);
+        //for lunch
+        itenaryHelper(itenary, availablePlaces, currTime, lunch, lunchDeadline); 
         currTime += dist(itenary[itenary.length-1],lunch)+timeSpent(lunch);
         itenary.push(lunch);
-        itenaryHelper(itenary, availablePlaces, currTime, dinner, dinnerDeadline); // for dinner
+        
+        //for dinner
+        itenaryHelper(itenary, availablePlaces, currTime, dinner, dinnerDeadline);  
         currTime += dist(itenary[itenary.length-1],dinner)+timeSpent(dinner);
         itenary.push(dinner);
+        
         if(bar!="")
           itenary.push(bar);
         return itenary;
@@ -133,6 +137,7 @@
       function itenaryHelper(itenary, availablePlaces, currTime, lastPlace, deadline){
         while(true){
           var currPlace = itenary[itenary.length-1];
+          //console.log(currPlace);
           var nextPlace = getLeastTimePlace(currPlace, availablePlaces);
           if(itenaryValid(currTime, currPlace, nextPlace, deadline, lastPlace)){
             itenary.push(nextPlace);
@@ -149,24 +154,38 @@
       }
 
       function timeSpent(place){
-
+          console.log("time spent at: "+place);
+          return 0;
       }
 
-      function dist(iplace, eplace){
-        var duration = "<%= bars_duration.get('Hangar') %>"
-
+      function dist(place1, place2){
+          if(place1!="" && place2!=""){
+            var addr1 = nameToAddr.get(place1);
+            var addr2 = nameToAddr.get(place2);
+            console.log(place1);
+            console.log(addr1);
+            console.log(place2);
+            console.log(addr2);
+            return omap.get(addr1).get(addr2)[1];
+          }
+          else
+            return Infinity;
       }
 
       function getLeastTimePlace(currPlace, availablePlaces){
-        var minDist = Infinity;
+        
+        var minTime = Infinity;
         var minPlace = "";
         for (let place of availablePlaces){
-          if(dist(currPlace, place) < minDist){
+          console.log("this is the place: "+place);
+          if(dist(currPlace, place) + timeSpent(place) < minTime){
             minPlace = place;
           }
         }
+        console.log("returning :"+minPlace);
         return minPlace;
-      }*/
+      }
+
     </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -232,7 +251,7 @@ img {
           <option value="Sunday">Sunday</option>
         </select>
       </div>
-      <button type="submit" onclick="selection();">Go</button>
+      <button type="button" onclick="selection();">Go</button>
     </form>
   </div>
 
