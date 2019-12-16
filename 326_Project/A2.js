@@ -27,29 +27,25 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false })); 
 
 app.get('/', function(req, res) {
-    __dirnamee = __dirname + "/views";
+    __dirnamee = __dirname + "\\views";
     res.sendFile(path.join(__dirnamee + '/abcd.html'));
 });
 
-//Instead of sending Hello World, we render index.ejs
-//app.get("/", (req, res) => { res.render("index") }); 
 app.get("/", (req, res) => {
     MongoClient.connect(uri, function(err, db) {
         client.connect(err => {
             console.log('Connected...');
-            //const collection = client.db("TravelPlanner").collection("Restaurants").find({}, {projection: {Name: 1}});
             const collection1 = client.db("TravelPlanner").collection("Restaurants");
             const collection2 = client.db("TravelPlanner").collection("Sites");
             const collection3 = client.db("TravelPlanner").collection("Bars");
-            collection1.find({}, {projection: {Name: 1}}).toArray(function(err, doc) {  //collection.forEach
-                //console.log(doc);
+            collection1.find({}, {projection: {Name: 1}}).toArray(function(err, doc) { 
                 if (doc == null) {
                     db.close();
                 }
                 for(var i=0; i<doc.length; i++)
                     arr1[i] = doc[i].Name;
             });
-            collection2.find({}, {projection: {Name: 1}}).toArray(function(err, doc) {  //collection.forEach
+            collection2.find({}, {projection: {Name: 1}}).toArray(function(err, doc) { 
                 //console.log(doc);
                 if (doc == null) {
                     db.close();
@@ -57,7 +53,7 @@ app.get("/", (req, res) => {
                 for(var i=0; i<doc.length; i++)
                     arr2[i] = doc[i].Name;
             });
-            collection3.find({}, {projection: {Name: 1}}).toArray(function(err, doc) {  //collection.forEach
+            collection3.find({}, {projection: {Name: 1}}).toArray(function(err, doc) { 
                 //console.log(doc);
                 if (doc == null) {
                     db.close();
@@ -84,7 +80,6 @@ app.post("/", function (req, res) {
                 if (doc == null)
                     db.close();
                 for(var i=0; i<doc.length; i++)
-                    //console.log(doc[i]["Name"] + "       " + doc[i][day]);
                     if(doc[i][day] !== "") {
                         arr1.push(doc[i]["Name"]);
                         t1.set(doc[i]["Name"], doc[i][day]);
@@ -113,17 +108,13 @@ app.post("/", function (req, res) {
             });
         });
     });
-    console.log(t3);
-    console.log(d3.get("Hangar, Amherst, MA"));
-    console.log(arr2);
     res.render("abcd.html", {restaurants: arr1, sites: arr2, bars: arr3, restaurants_timings: t1, sites_timings: t2, bars_timings: t3, restaurants_duration: d1, sites_duration: d2, bars_duration: d3}); 
 });
 
 app.route('/Output')
  	.post(function (req, res) {
         var pathn = process.cwd();
-        console.log("!!!!!! " + name);
-        res.sendFile(pathn + "/views" + '/output.html');
+        res.sendFile(pathn + "\\views" + '/output.html');
         res.render("output.html", {name: name, hotel: hotel});
 	});
 

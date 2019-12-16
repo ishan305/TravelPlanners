@@ -3,16 +3,6 @@
 <head>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWJjTpoFTz6On1Lsy9NlueVqyiDnAIk0g"></script>
     <script>
-      function myFunction() {
-        var x = document.getElementById("myDIV");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
-      }
-      </script>
-    <script>
       var arr = [];
       var arr1 = [];
       var arr2 = [];
@@ -21,9 +11,7 @@
       var omap = new Map();
       var finalArr = [];
       var nameToAddr = new Map();
-
       function selection() {
-        //alert("<%= bars_timings.get('Hangar, Amherst, MA') %>");ok
         arr = [];
         arr1 = [];
         arr2 = [];
@@ -46,12 +34,11 @@
         finalArr = finalArr.concat(arr1);
         finalArr = finalArr.concat(arr2);
         finalArr = finalArr.concat(arr3);
-        finalArr.push("Howard Johnson, Hadley, MA");
+        finalArr.push(document.getElementsByName('hoteladdress'));
         //console.log(finalArr);  //check to see if all selected places are in this array
         calculateDistances();
         setTimeout(itenaryMaker, 1000);
       }
-
       function calculateDistances() {
         var service = new google.maps.DistanceMatrixService();
         service.getDistanceMatrix(
@@ -83,32 +70,19 @@
             nameToAddr.set(finalArr[i], origins[i]);
           }
         }
-
-        //use this to understand how to traverse omap.. there might be other/better ways to do it as well but this is simplest
         for (var [key, value] of omap) {
-          //alert(key);
           for (var [k, v] of value) {
             //alert(key + ' = ' + k + " = " + v);
           }
         }
-
-        //use this to get duration and timings. Variables are given in A2.js around line 118
-        //var timings = "<%= bars_timings.get('Hangar, Amherst, MA') %>"
-        //var duration = "<%= bars_duration.get('Hangar, Amherst, MA') %>"
-
-        //also make sure that the final result is array of places in order as well as times. start from 10am from hotel 
-        //and use duration and travel time to increment the timings array. for example timings[0] = "10am", timings[1]= "10:30am"
-        //and so on
       }
-
-      var start = "Howard Johnson, Hadley, MA"
+      var start = document.getElementsByName('restaurant');
       var dinner = arr1[1];
       var lunch = arr1[0];
       var lunchDeadline = 900; // 3 o clock
       var dinnerDeadline = 1260; // 9 o clock in minutes
       var startTime = 600; // 10 o clock , time in minuted
       var bar = arr3[0];
-
       function getSelectedPlaces(){
         return new Set(arr2);
       }
@@ -133,7 +107,6 @@
           itenary.push(bar);
         return itenary;
       }
-
       function itenaryHelper(itenary, availablePlaces, currTime, lastPlace, deadline){
         while(true){
           var currPlace = itenary[itenary.length-1];
@@ -148,16 +121,13 @@
             break;
         }
       }
-
       function itenaryValid(currTime, currPlace, nextPlace, lastPlace, deadline){
         return currTime+dist(currPlace,nextPlace)+timeSpent(nextPlace) + dist(nextPlace, lastPlace) + timeSpent(lastPlace) <= deadline;
       }
-
       function timeSpent(place){
           console.log("time spent at: "+place);
           return 0;
       }
-
       function dist(place1, place2){
           if(place1!="" && place2!=""){
             var addr1 = nameToAddr.get(place1);
@@ -171,7 +141,6 @@
           else
             return Infinity;
       }
-
       function getLeastTimePlace(currPlace, availablePlaces){
         
         var minTime = Infinity;
@@ -185,7 +154,6 @@
         console.log("returning :"+minPlace);
         return minPlace;
       }
-
     </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -208,7 +176,6 @@
     display: flex;
     overflow-x: auto;
 }
-
 img {
   width: 300px;
   height: 300px;

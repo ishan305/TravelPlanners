@@ -12,42 +12,29 @@
     </style>
 </head>
 <body>
-<table>
-<!-- here goes our data! -->
-</table>
-</body>
 <p>
     <button type="submit" onclick="run();">Submit</button>
 </p>
+</body>
 <script>
     function run() {
-      /*let array = [
-        { Time: "10:00am", Place: "Leave <%= hotel %>" },
+      a = abcd.itenary;
+      t = abcd.times;
+      let array = [
+        { Time: "10:00am", Place: "Leave <%= hotel %>" +  mySelection},
         { Time: "10:00am - " + t[0], Place: "Travel from <%= hotel %> to " + a[0] },
         { Time: t[0] + " - " + t[1], Place: "Stay in " + a[0] },
         { Time: t[1] + " - " + t[2], Place: "Travel from " + a[0] + "to + " + a[1] },
-        { Time: "12:00am - 12:45pm", Place: "Stay in " + a[1]},
-        { Time: "11:30am - 12:00pm", Place: "Travel from " + a[1] + "to + " + a[2] },
-        { Time: "10:30am - 11:30am", Place: "Stay in " + a[2] },
-        { Time: "11:30am - 12:00pm", Place: "Travel from " + a[2] + "to + " + a[3] },
-        { Time: "12:00am - 12:45pm", Place: "Stay in " + a[3]}
-      ];*/
-
-      let array = [
-        { Time: "10:00am", Place: "Leave <%= hotel %>" },
-        { Time: "10:00am - 10:20am", Place: "Travel from <%= hotel %> to Du Bois Library, Amherst, MA" },
-        { Time: "10:20am - 10:50am", Place: "Stay in Du Bois Library, Amherst, MA" },
-        { Time: "10:50am - 11:05am", Place: "Travel from Du Bois Library, Amherst, MA to Emily Dickinson Museum, Amherst, MA" },
-        { Time: "11:05am - 1:05pm", Place: "Stay in Emily Dickinson Museum, Amherst, MA" },
-        { Time: "1:05pm - 1:15pm", Place: "Travel from Emily Dickinson Museum, Amherst, MA to Judie's, Amherst, MA" },
-        { Time: "1:15pm - 2:15pm", Place: "Stay in Judie's, Amherst, MA" },
-        { Time: "2:15pm - 2:30pm", Place: "Travel from Judie's, Amherst, MA to Beneski Museum, Amherst, MA" },
-        { Time: "2:30pm - 4:30pm", Place: "Stay in Beneski Museum, Amherst, MA" },
-        { Time: "4:30pm - 4:45pm", Place: "Travel from Beneski Museum, Amherst, MA to Eric Carle Museum, Amherst, MA" },
-        { Time: "4:45pm - 6:45pm", Place: "Stay in Eric Carle Museum, Amherst, MA" },
-        { Time: "6:45pm - 7:00pm", Place: "Travel from Eric Carle Museum, Amherst, MA to Johnny's Tavern, Amherst, MA" },
-        { Time: "7:00pm - 8:00pm", Place: "Stay in Johnny's Tavern, Amherst, MA" },
-        { Time: "8:00pm - 8:20pm", Place: "Travel from Johnny's Tavern, Amherst, MA to <%= hotel %>" },
+        { Time: t[2] + " - " + t[3], Place: "Stay in " + a[1] },
+        { Time: t[3] + " - " + t[4], Place: "Travel from " + a[1] + "to + " + a[2] },
+        { Time: t[4] + " - " + t[5], Place: "Stay in " + a[2] },
+        { Time: t[5] + " - " + t[6], Place: "Travel from " + a[2] + "to + " + a[3] },
+        { Time: t[6] + " - " + t[7], Place: "Stay in " + a[3] },
+        { Time: t[7] + " - " + t[8], Place: "Travel from " + a[3] + "to + " + a[4] },
+        { Time: t[8] + " - " + t[9], Place: "Stay in " + a[4] },
+        { Time: t[9] + " - " + t[10], Place: "Travel from " + a[4] + "to + " + a[5] },
+        { Time: t[10] + " - " + t[11], Place: "Stay in " + a[5] },
+        { Time: t[11] + " - " + t[12], Place: "Travel from " + a[5] + "to + " + "<%= hotel %>" }
       ];
 
       function generateTableHead(table, data) {
